@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 import joblib
 
 print("🔹 Loading feature dataset...")
-df = pd.read_csv('c:/Users/Gaurav Kumar/Desktop/Phishing detector project/data/feature_extracted.csv')
+df = pd.read_csv('data/feature_extracted.csv')
+
 
 # Convert string labels to numeric
 df['label'] = df['label'].map({'legitimate': 0, 'phishing': 1})
@@ -17,7 +18,8 @@ y = df['label']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 print("🔹 Loading model...")
-model = joblib.load('c:/Users/Gaurav Kumar/Desktop/Phishing detector project/data/phishing_detector_model.pkl')
+model = joblib.load("models/phish_model.pkl")
+
 
 # Predict
 y_pred = model.predict(X_test)

@@ -51,7 +51,9 @@ model = RandomForestClassifier()
 model.fit(X, labels)
 
 # Save both model and vectorizer to the 'data' folder
-joblib.dump(model, 'c:/Users/Gaurav Kumar/Desktop/Phishing detector project/data/phishing_detector_model.pkl')
-joblib.dump(vectorizer, 'c:/Users/Gaurav Kumar/Desktop/Phishing detector project/data/vectorizer.pkl')
+os.makedirs('data', exist_ok=True)
+
+joblib.dump(model, os.path.join('data', 'phishing_detector_model.pkl'))
+joblib.dump(vectorizer, os.path.join('data', 'vectorizer.pkl'))
 
 print("Model and vectorizer saved successfully!")

@@ -1,0 +1,40 @@
+.result-box {
+  flex: 1;
+  max-width: 350px;
+  padding: 2rem;
+  background: #01111c;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #00fff7;
+  color: #00fff7;
+  min-height: 120px;
+  font-size: 1.2rem;
+
+  /* Start hidden and shifted */
+  opacity: 0;
+  transform: translateX(30px);
+  /* Remove transition - use animation instead */
+  /* transition: opacity 0.5s ease, transform 0.5s ease; */
+}
+
+.result-box.visible {
+  /* Animation: fade in + slide in, keep final state */
+  animation: bounceSlideIn 0.7s forwards;
+}
+
+@keyframes bounceSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(-10px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

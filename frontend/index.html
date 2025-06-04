@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Phishing Detection</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #0d0b1d;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #0a0f1a;
+      border-bottom: 1px solid #1f2937;
+    }
+
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem;
+      color: #00ffe1;
+    }
+
+    nav a {
+      margin-left: 1rem;
+      color: #cbd5e1;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    nav a:hover {
+      color: #00ffe1;
+    }
+
+    .panel {
+      margin-top: 4rem;
+      background: linear-gradient(135deg, rgba(80, 0, 120, 0.8), rgba(20, 0, 40, 0.9));
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 0 20px rgba(140, 0, 255, 0.3);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      position: relative;
+    }
+
+    .panel h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #ffffff;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1rem;
+      border-radius: 12px;
+      border: none;
+      background: #1e1e2f;
+      color: #00ffe1;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 10px rgba(0, 255, 225, 0.2);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 12px;
+      border: none;
+      background: #00aaff;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 1.5rem;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: #0088cc;
+      box-shadow: 0 0 15px #0088cc;
+    }
+
+    .output-box {
+      text-align: left;
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 0 10px rgba(0, 255, 225, 0.1);
+    }
+
+    .output-box p {
+      margin: 0.5rem 0;
+      font-size: 1rem;
+    }
+
+    .label {
+      font-weight: bold;
+      color: #a0aec0;
+    }
+
+    .bar-container {
+      background-color: #1f1f2e;
+      height: 20px;
+      border-radius: 10px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      text-align: right;
+      border-radius: 10px;
+      padding-right: 10px;
+      font-size: 0.8rem;
+      line-height: 20px;
+      transition: width 0.5s ease;
+      color: #0a0000;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .panel {
+        padding: 1.5rem;
+      }
+
+      .panel h1 {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Gaurav's AI Shield</div>
+  <nav>
+    <a href="about.html">About</a>
+    <a href="project.html">Project</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<div class="panel">
+  <h1>PHISHING DETECTION</h1>
+  <input type="text" id="urlInput" placeholder="Enter URL e.g. https://example.com" />
+  <button onclick="checkURL()">Check URL</button>
+
+  <div class="output-box">
+    <p class="label">Detection:</p>
+    <p id="detection">--</p>
+
+    <p class="label">Probability:</p>
+    <p id="probability">--</p>
+    <div class="bar-container">
+      <div id="probabilityBar" class="bar-fill">0%</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  async function checkURL() {
+    const url = document.getElementById("urlInput").value.trim();
+    const detection = document.getElementById("detection");
+    const probability = document.getElementById("probability");
+    const bar = document.getElementById("probabilityBar");
+
+    detection.textContent = "";
+    probability.textContent = "";
+    bar.style.width = "0%";
+    bar.textContent = "0%";
+    bar.style.backgroundColor = "#444";
+
+    if (!url) {
+      detection.textContent = "⚠️ Please enter a URL.";
+      probability.textContent = "--";
+      bar.textContent = "--";
+      detection.style.color = "#ffcc00";
+      return;
+    }
+
+    try {
+      detection.textContent = "Checking...";
+      probability.textContent = "";
+      bar.textContent = "";
+      bar.style.width = "0%";
+
+      const response = await fetch("http://localhost:5000/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const percentage = Math.round(data.probability * 100);
+
+      if (data.prediction === 1) {
+        detection.textContent = "⚠️ Phishing URL";
+        detection.style.color = "#ff4f4f";
+        bar.style.backgroundColor = "#ff4f4f";
+      } else {
+        detection.textContent = "✅ Legitimate URL";
+        detection.style.color = "#00ff7f";
+        bar.style.backgroundColor = "#00ff7f";
+      }
+
+      probability.textContent = `${percentage}%`;
+      bar.textContent = `${percentage}%`;
+      bar.style.width = `${percentage}%`;
+    } catch (error) {
+      console.error(error);
+      detection.textContent = "❌ Error connecting to backend.";
+      detection.style.color = "#ff4f4f";
+      probability.textContent = "--";
+      bar.textContent = "--";
+      bar.style.backgroundColor = "#444";
+    }
+  }
+</script>
+
+</body>
+</html>

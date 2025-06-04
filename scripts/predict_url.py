@@ -61,7 +61,7 @@ def predict_url(url, model):
 
 if __name__ == "__main__":
     import joblib
-    model = joblib.load('c:/Users/Gaurav Kumar/Desktop/Phishing detector project/data/phishing_detector_model.pkl')
+    model = joblib.load("models/phish_model.pkl")
     url = input("Enter URL to check: ")
     result = predict_url(url, model)
     print(f"Prediction: {result}")

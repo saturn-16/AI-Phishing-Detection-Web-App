@@ -1,12 +1,15 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import joblib
+import os
 
 app = Flask(__name__)
 CORS(app)
 
-model = joblib.load('c:/Users/Gaurav Kumar/Desktop/Phishing detector project/data/phishing_detector_model.pkl')
-vectorizer = joblib.load('c:/Users/Gaurav Kumar/Desktop/Phishing detector project/data/vectorizer.pkl')
+model = joblib.load("models/phish_model.pkl")
+vectorizer_path = os.path.join('data', 'vectorizer.pkl')
+vectorizer = joblib.load(vectorizer_path)
+
 
 @app.route('/predict', methods=['POST'])
 def predict():

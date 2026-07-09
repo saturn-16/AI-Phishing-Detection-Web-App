@@ -203,49 +203,55 @@ export default function ScannerSection() {
     setActiveGlows([true, true, true]);
     await new Promise((r) => setTimeout(r, 600));
 
-    let scanResult: ScanResult;
+    const dangerCount = features.filter((f) => f.status === "danger").length;
+    const warningCount = features.filter((f) => f.status === "warning").length;
+    const fallbackRisk = Math.min(dangerCount * 0.2 + warningCount * 0.08, 0.99);
+
+    let scanResult: ScanResult = {
+      prediction: fallbackRisk > 0.4 ? 1 : 0,
+      probability: fallbackRisk,
+      features
+    };
+
     try {
       const res = await fetch("/api/scan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url: targetUrl }),
       });
-      if (!res.ok) throw new Error("Backend unavailable");
-      const data = await res.json();
-      scanResult = {
-        prediction: data.prediction,
-        probability: data.probability,
-        features,
-        vtMalicious: data.vtMalicious,
-        vtSuspicious: data.vtSuspicious,
-        abuseConfidenceScore: data.abuseConfidenceScore,
-        resolvedIp: data.resolvedIp,
-      };
-      setResult(scanResult);
+      if (res.ok) {
+        const data = await res.json();
+        scanResult = {
+          prediction: data.prediction,
+          probability: data.probability,
+          features,
+          vtMalicious: data.vtMalicious,
+          vtSuspicious: data.vtSuspicious,
+          abuseConfidenceScore: data.abuseConfidenceScore,
+          resolvedIp: data.resolvedIp,
+        };
+      }
     } catch {
-      const dangerCount = features.filter((f) => f.status === "danger").length;
-      const warningCount = features.filter((f) => f.status === "warning").length;
-      const risk = Math.min(dangerCount * 0.2 + warningCount * 0.08, 0.99);
-      scanResult = { prediction: risk > 0.4 ? 1 : 0, probability: risk, features };
-      setResult(scanResult);
-    } finally {
-      setLoading(false);
-      setFlowActive(false);
-      setActiveGlows([false, false, false]);
-      setTimeout(() => {
-        resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 200);
-      
-      // Trigger Groq AI Analysis asynchronously
-      triggerAiAnalysis(
-        targetUrl,
-        scanResult.prediction === 1,
-        scanResult.probability,
-        features,
-        scanResult.vtMalicious,
-        scanResult.abuseConfidenceScore
-      );
+      // Keep default fallback scanResult
     }
+
+    setResult(scanResult);
+    setLoading(false);
+    setFlowActive(false);
+    setActiveGlows([false, false, false]);
+    setTimeout(() => {
+      resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 200);
+    
+    // Trigger Groq AI Analysis asynchronously
+    triggerAiAnalysis(
+      targetUrl,
+      scanResult.prediction === 1,
+      scanResult.probability,
+      features,
+      scanResult.vtMalicious,
+      scanResult.abuseConfidenceScore
+    );
   };
 
   const riskPct = result ? Math.round(result.probability * 100) : 0;

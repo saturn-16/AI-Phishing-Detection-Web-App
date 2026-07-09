@@ -2,6 +2,8 @@
 
 A professional, enterprise-grade multi-layer URL scanner and AI-powered phishing detection platform. The system combines local **Machine Learning predictions**, **lexical heuristic heuristics**, **third-party threat intelligence blacklists**, and **Llama 3 AI security analysis** to deliver explainable, real-time threat verdicts.
 
+**🌐 Live Demo:** [ai-phishing-detection-web-app-fn8k-ten.vercel.app](https://ai-phishing-detection-web-app-fn8k-ten.vercel.app/)
+
 ---
 
 ## ⚡ Key Features

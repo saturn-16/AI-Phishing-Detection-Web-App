@@ -19,6 +19,7 @@ export async function POST(req: Request) {
     // 1. Try to get ML Model prediction from Flask (local fallback if down)
     let mlPrediction = 0;
     let mlProbability = 0.05;
+    let mlOnline = false;
     try {
       const backendUrl = process.env.ML_BACKEND_URL || "http://localhost:5000";
       const mlRes = await fetch(`${backendUrl}/predict`, {
@@ -30,9 +31,10 @@ export async function POST(req: Request) {
         const mlData = await mlRes.json();
         mlPrediction = mlData.prediction;
         mlProbability = mlData.probability;
+        mlOnline = true;
       }
     } catch {
-      // Local ML backend down, will combine VT/AbuseIPDB with client features
+      mlOnline = false;
     }
 
     // 2. Resolve hostname to IP for AbuseIPDB
@@ -140,6 +142,7 @@ export async function POST(req: Request) {
       vtSuspicious,
       abuseConfidenceScore,
       resolvedIp,
+      mlOnline,
     });
   } catch (error: any) {
     return NextResponse.json(

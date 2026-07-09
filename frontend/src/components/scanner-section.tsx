@@ -147,6 +147,7 @@ export default function ScannerSection() {
     threatIntel: string;
   } | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
+  const [mlOnline, setMlOnline] = useState(true);
 
   const triggerAiAnalysis = async (targetUrl: string, phishing: boolean, prob: number, feats: FeatureResult[], vtMalicious = 0, abuseConfidenceScore = 0) => {
     setAiLoading(true);
@@ -221,6 +222,7 @@ export default function ScannerSection() {
       });
       if (res.ok) {
         const data = await res.json();
+        setMlOnline(data.mlOnline);
         scanResult = {
           prediction: data.prediction,
           probability: data.probability,
@@ -230,9 +232,11 @@ export default function ScannerSection() {
           abuseConfidenceScore: data.abuseConfidenceScore,
           resolvedIp: data.resolvedIp,
         };
+      } else {
+        setMlOnline(false);
       }
     } catch {
-      // Keep default fallback scanResult
+      setMlOnline(false);
     }
 
     setResult(scanResult);
@@ -342,8 +346,17 @@ export default function ScannerSection() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2 mt-3 pt-3 border-t border-zinc-900/60">
-                    <span className={`w-2 h-2 rounded-full transition-all duration-500 ${isActive ? "bg-emerald-400 shadow-[0_0_10px_#10b981] animate-ping" : "bg-emerald-500/40"}`} />
-                    <span className="text-[9px] font-mono text-zinc-400 font-bold">ONLINE</span>
+                    {mod.label === "ML ENGINE" && !mlOnline ? (
+                      <>
+                        <span className="w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.5)]" />
+                        <span className="text-[9px] font-mono text-rose-400 font-bold">OFFLINE (LOCAL FALLBACK)</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className={`w-2 h-2 rounded-full transition-all duration-500 ${isActive ? "bg-emerald-400 shadow-[0_0_10px_#10b981] animate-ping" : "bg-emerald-500/40"}`} />
+                        <span className="text-[9px] font-mono text-zinc-400 font-bold">ONLINE</span>
+                      </>
+                    )}
                   </div>
                 </motion.div>
               );

@@ -20,7 +20,8 @@ export async function POST(req: Request) {
     let mlPrediction = 0;
     let mlProbability = 0.05;
     try {
-      const mlRes = await fetch("http://localhost:5000/predict", {
+      const backendUrl = process.env.ML_BACKEND_URL || "http://localhost:5000";
+      const mlRes = await fetch(`${backendUrl}/predict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url }),

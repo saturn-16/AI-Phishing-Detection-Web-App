@@ -62,15 +62,15 @@ Ensure you have the following installed:
 
 ### 3. Frontend Setup (Next.js App)
 
-1. Navigate to the `frontend-app` directory:
+1. Navigate to the `frontend` directory:
    ```bash
-   cd frontend-app
+   cd frontend
    ```
 2. Install npm dependencies:
    ```bash
    npm install
    ```
-3. Create a `.env.local` file in the `frontend-app` root directory:
+3. Create a `.env.local` file in the `frontend` root directory:
    ```env
    GROQ_API_KEY=your_groq_api_key
    VIRUSTOTAL_API_KEY=your_virustotal_api_key

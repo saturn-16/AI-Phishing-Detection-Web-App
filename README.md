@@ -1,4 +1,4 @@
-# 🛡️ AI Phishing Detection Web App
+# AI Phishing Detection Web App
 
 A professional, enterprise-grade multi-layer URL scanner and AI-powered phishing detection platform. The system combines local **Machine Learning predictions**, **lexical heuristic heuristics**, **third-party threat intelligence blacklists**, and **Llama 3 AI security analysis** to deliver explainable, real-time threat verdicts.
 
@@ -6,7 +6,7 @@ A professional, enterprise-grade multi-layer URL scanner and AI-powered phishing
 
 ---
 
-## ⚡ Key Features
+##  Key Features
 
 *   **Multi-Stage Pipeline**: Real-time pipeline visualizer showing progress across the URL Parser, local ML Engine, and Threat DB.
 *   **Local Machine Learning Classifier**: A Random Forest model trained on balanced clean/phishing datasets using character n-gram TF-IDF vectorization.
@@ -18,7 +18,7 @@ A professional, enterprise-grade multi-layer URL scanner and AI-powered phishing
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```mermaid
 graph TD
@@ -86,7 +86,7 @@ Ensure you have the following installed:
 
 ---
 
-## 📊 Model Training Pipeline
+##  Model Training Pipeline
 
 You can retrain or update the classifier model at any time with custom URL lists:
 
@@ -107,6 +107,3 @@ You can retrain or update the classifier model at any time with custom URL lists
 4. **Deploy**: Restart the Flask server (`python app.py`) to load the newly trained weights.
 
 ---
-
-## 🛡️ License
-Distributed under the MIT License. See [LICENSE](LICENSE) for more information.

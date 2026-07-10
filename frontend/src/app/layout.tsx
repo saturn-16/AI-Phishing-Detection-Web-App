@@ -5,7 +5,7 @@ import "./globals.css";
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 const jakarta = Plus_Jakarta_Sans({

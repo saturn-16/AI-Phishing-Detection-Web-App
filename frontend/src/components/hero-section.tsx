@@ -19,10 +19,10 @@ export default function HeroSection() {
 
         {/* Right — Text with SplitText Animation */}
         <div className="flex flex-col gap-6">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold tracking-tight leading-[1.1] text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold tracking-tight leading-[1.1] bg-clip-text text-transparent bg-gradient-to-br from-white via-zinc-100 to-zinc-400 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]">
             <SplitText text="Think Before You Click." charSpeed={0.03} delay={0.1} />
           </h1>
-          <h2 className="text-2xl md:text-3xl font-heading font-bold text-emerald-400 tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+          <h2 className="text-2xl md:text-3xl font-heading font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
             <SplitText text="Detect Phishing Before It Detects You." charSpeed={0.025} delay={0.8} />
           </h2>
           <p className="text-zinc-300 text-lg leading-relaxed max-w-lg drop-shadow-[0_1px_5px_rgba(0,0,0,0.8)]">

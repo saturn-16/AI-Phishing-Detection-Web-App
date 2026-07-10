@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Syne, Plus_Jakarta_Sans } from "next/font/google";
+import { Space_Grotesk, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const syne = Syne({
+const spaceGrotesk = Space_Grotesk({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["700", "800"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const jakarta = Plus_Jakarta_Sans({
@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${syne.variable} ${jakarta.variable} dark antialiased`}>
+    <html lang="en" className={`${spaceGrotesk.variable} ${jakarta.variable} dark antialiased`}>
       <body className="min-h-screen bg-background text-foreground font-sans">
         {children}
       </body>
